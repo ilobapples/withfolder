@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kimaya – Portfolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://use.typekit.net/qbj3vik.css">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Special+Elite&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Special Elite', 'P22 Typewriter', 'Courier Prime', 'Courier New', Courier, monospace;
+      overflow-x: hidden;
+      cursor: none;
+      background-color: #fafafa;
+    }
+    * {
+      cursor: none !important;
+    }
+    .anek-font {
+      font-family: "anek-latin-variable", "Inter", sans-serif !important;
+    }
+    /* Override tailwind defaults to ensure typewriter font everywhere */
+    h1, h2, h3, h4, h5, h6, p, span, button, div, a {
+      font-family: inherit;
+    }
+    .pixel-font {
+      font-family: 'Press Start 2P', cursive;
+    }
+    @keyframes glint {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    .glint-effect {
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      background-size: 200% 100%;
+      animation: glint 2s infinite linear;
+    }
+    .perspective-1000 {
+      perspective: 1000px;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.4",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react-router-dom": "https://esm.sh/react-router-dom@^7.13.0",
+    "vite": "https://esm.sh/vite@^7.3.1",
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.4"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="bg-white text-zinc-900">
+  <div id="root"></div>
+  <script type="module" src="./index.tsx"></script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route, useLocation, Link } from 'react-router-dom';
-import Home from './sections/Home';
-import About from './sections/About';
-import Work from './sections/Work';
-import WorkDetail from './sections/WorkDetail';
-import Misc from './sections/Misc';
-import Memories from './sections/Memories';
-import Archive from './sections/Archive';
-import Flappy from './sections/Flappy';
+import Home from './Home';
+import About from './About';
+import Work from './Work';
+import WorkDetail from './WorkDetail';
+import Misc from './Misc';
+import Memories from './Memories';
+import Archive from './Archive';
+import Flappy from './Flappy';
 
 const CustomCursor: React.FC = () => {
   const [position, setPosition] = useState({ x: -100, y: -100 });

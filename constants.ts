@@ -1,4 +1,4 @@
-import { Project, Memory } from './types';
+import { Project, Memory, ArchiveProject } from './types';
 
 export const PROJECTS: Project[] = [
   {
@@ -81,7 +81,7 @@ export const PROJECTS: Project[] = [
   }
 ];
 
-export const ARCHIVE_PROJECTS = [
+export const ARCHIVE_PROJECTS: ArchiveProject[] = [
   {
     id: 'character-walk-cycle',
     title: 'Character Design & Walk Cycle',
@@ -126,4 +126,4 @@ export const MEMORIES: Memory[] = [
   { id: 'm7', url: 'https://lh3.googleusercontent.com/d/1hSJB9EOZJ0kn9I7b1UL9bgszIeWLZMbG', caption: 'Captured Moment 07' },
 ];
 
-export const LANGUAGES = ["Kimaya", "കിമായ", "கிமாயா", "किமாயാ"];
+export const LANGUAGES = ["Kimaya", "കിമായ", "கிமாயா", "किமாயா"];

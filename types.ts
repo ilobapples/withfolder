@@ -16,3 +16,18 @@ export interface Memory {
   url: string;
   caption: string;
 }
+
+export interface ArchiveAsset {
+  type: string; // 'image' | 'video' | 'zine'
+  url: string;
+  label: string;
+  thumbnailUrl?: string;
+}
+
+export interface ArchiveProject {
+  id: string;
+  title: string;
+  year: string;
+  description: string;
+  assets: ArchiveAsset[];
+}

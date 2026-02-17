@@ -1,4 +1,4 @@
-import { Project, Memory, ArchiveProject } from './types';
+import { Project, Memory, ArchiveProject, ArchiveAsset } from './types';
 
 export const PROJECTS: Project[] = [
   {
@@ -48,40 +48,26 @@ export const PROJECTS: Project[] = [
       { url: 'https://lh3.googleusercontent.com/d/1K3j85_kHifRlneji7jj6_qWIh3WLJzLq', label: 'Band Member 05 Poster' },
       { url: 'https://lh3.googleusercontent.com/d/1d6AdOsv9m_YLs0DYm1SecvOfubP6avsb', label: 'Band Member 06 Poster' }
     ]
-  },
-  {
-    id: 'digital-dreams',
-    title: 'Digital Dreams',
-    description: 'An exploration of abstract forms in virtual space.',
-    fullContent: 'This project began as a study of how light interacts with non-Euclidean geometry. Using a combination of custom shaders and procedural generation, I created a series of works that challenge the viewer\'s perception of depth and reality.',
-    imageUrl: 'https://picsum.photos/seed/p1/800/600',
-    category: 'Digital Art',
-    year: '2023',
-    spotifyEmbedUrl: 'https://open.spotify.com/embed/track/4v9S1N6m9fS6vUq3xXQZfE'
-  },
-  {
-    id: 'urban-echoes',
-    title: 'Urban Echoes',
-    description: 'Capturing the hidden rhythms of city life through illustration.',
-    fullContent: 'Urban Echoes is an ongoing series of street-level illustrations. Each piece is drawn on-site, capturing the fleeting moments of connection and isolation in dense metropolitan environments.',
-    imageUrl: 'https://picsum.photos/seed/p2/800/600',
-    category: 'Illustration',
-    year: '2024',
-    spotifyEmbedUrl: 'https://open.spotify.com/embed/playlist/37i9dQZF1DX8Ueb9WJR3oR'
-  },
-  {
-    id: 'synth-waves',
-    title: 'Synth Waves',
-    description: 'Audio-visual experiments synced to electronic beats.',
-    fullContent: 'A collaboration with electronic music producers to create responsive visual environments. The motion is driven by FFT analysis of the audio signal, creating a seamless fusion of sound and sight.',
-    imageUrl: 'https://picsum.photos/seed/p3/800/600',
-    category: 'Interactive',
-    year: '2023',
-    spotifyEmbedUrl: 'https://open.spotify.com/embed/track/4cOdK2wGZSTM2Of9737qyN'
   }
 ];
 
 export const ARCHIVE_PROJECTS: ArchiveProject[] = [
+  {
+    id: 'self-portrait-series',
+    title: 'Self',
+    year: '2024',
+    description: 'A collection of personal illustrations and character studies documenting visual identity and self-reflection.',
+    assets: [
+      { type: 'image', url: 'https://lh3.googleusercontent.com/d/1LqZvzlNeEL-6fb7kVkfUAtrOD3eBPTNc', label: 'Spread_01_Left' },
+      { type: 'image', url: 'https://lh3.googleusercontent.com/d/1fyuFG-YRWz5c7MFHQXoIW57vhPPqQPV1', label: 'Spread_01_Right' },
+      { type: 'image', url: 'https://lh3.googleusercontent.com/d/1XetowlPFB9CI_sRTzVRMhqn9Nnxm0ne2', label: 'Spread_02_Left' },
+      { type: 'image', url: 'https://lh3.googleusercontent.com/d/1nx3z1zlOTdxhrf0hHOnrzbeftwEzUBYI', label: 'Spread_02_Right' },
+      { type: 'image', url: 'https://lh3.googleusercontent.com/d/174cLvkSpA080IlMOAptdZ47HLUYhpJoB', label: 'Spread_03_Left' },
+      { type: 'image', url: 'https://lh3.googleusercontent.com/d/1A9AWabN-vuEpW3GUOSxF6qpLOuk_CA5n', label: 'Spread_03_Right' },
+      { type: 'image', url: 'https://lh3.googleusercontent.com/d/1RdlMortdMCjIPgnu0pNBDuVyMVFA9bIx', label: 'Spread_04_Left' },
+      { type: 'image', url: 'https://lh3.googleusercontent.com/d/12VR_fsgR3UbPhgajemdw7MyeJWDVVVQF', label: 'Spread_04_Right' }
+    ]
+  },
   {
     id: 'character-walk-cycle',
     title: 'Character Design & Walk Cycle',
@@ -94,19 +80,29 @@ export const ARCHIVE_PROJECTS: ArchiveProject[] = [
     ]
   },
   {
-    id: 'digital-zine',
-    title: 'Digital Zine Publication',
+    id: 'handmade-zine',
+    title: 'Handmade Zine',
     year: '2024',
-    description: 'An interactive flippable zine exploration of digital collages and fragmented narratives.',
+    description: 'A sensory narrative of collated moments, exploring the intersection of physical print aesthetics and digital interaction.',
     assets: [
       { 
         type: 'zine', 
         url: 'https://heyzine.com/flip-book/b624c5b39a.html', 
-        thumbnailUrl: 'https://heyzine.com/cover/b624c5b39a.jpg',
+        thumbnailUrl: 'https://lh3.googleusercontent.com/d/1F9ixc9Vb3GTprHq4jc23DGlbiS026xny',
         label: 'Interactive_Publication_V1' 
       }
     ]
   }
+];
+
+export const MISC_ARTIFACTS: { id: number; title: string; url: string }[] = [
+  { id: 201, title: 'Sketch_01', url: 'https://lh3.googleusercontent.com/d/1_Zl4ArGcMRazR1KRG-bWe12GLLKGqiYn' },
+  { id: 202, title: 'Sketch_02', url: 'https://lh3.googleusercontent.com/d/19aOWQ2uyB1j1tRUmN9iPr0h0clajz2rT' },
+  { id: 203, title: 'Sketch_03', url: 'https://lh3.googleusercontent.com/d/19fSoxZTXQ21GzLcClLvetocbWxdeaTAO' },
+  { id: 204, title: 'Sketch_04', url: 'https://lh3.googleusercontent.com/d/1nEH5cfS9tlvI4FISk6uvc7KlD26v4g6i' },
+  { id: 205, title: 'Sketch_05', url: 'https://lh3.googleusercontent.com/d/1Qcsaj5tM0LievM5_ZKOWycJG99Vm_qma' },
+  { id: 206, title: 'Sketch_06', url: 'https://lh3.googleusercontent.com/d/1ih_MRkE0lfKhi-BGXIonmAETX7wW9ROK' },
+  { id: 207, title: 'Sketch_07', url: 'https://lh3.googleusercontent.com/d/1LVPXtUPrdNjqvGHlbqcxpVwugYgMPRQE' }
 ];
 
 export const NARRATIVE_STORY = [
@@ -122,8 +118,15 @@ export const MEMORIES: Memory[] = [
   { id: 'm3', url: 'https://lh3.googleusercontent.com/d/1rTsEUF5pwGCLyJMej1djAaGkeVXOdlia', caption: 'Captured Moment 03' },
   { id: 'm4', url: 'https://lh3.googleusercontent.com/d/1zK3vWmM0QMWCiXOTeuHc7voYkfZTyfRq', caption: 'Captured Moment 04' },
   { id: 'm5', url: 'https://lh3.googleusercontent.com/d/1h8hPErptot-flKEWFtPcDgQ4Ws5hJr3N', caption: 'Captured Moment 05' },
-  { id: 'm6', url: 'https://lh3.googleusercontent.com/d/1heqHJjTnH1oEQxDjhUTyjBwlUHGcl-6', caption: 'Captured Moment 06' },
   { id: 'm7', url: 'https://lh3.googleusercontent.com/d/1hSJB9EOZJ0kn9I7b1UL9bgszIeWLZMbG', caption: 'Captured Moment 07' },
+  { id: 'm8', url: 'https://lh3.googleusercontent.com/d/1PhIZS64N4c1fdVCTWDzhI7XrFNr0PbFA', caption: 'Captured Moment 08' },
+  { id: 'm9', url: 'https://lh3.googleusercontent.com/d/1vfAyL8TC9cq7qL3TKqfBoPlcG_ADj6Go', caption: 'Captured Moment 09' },
+  { id: 'm10', url: 'https://lh3.googleusercontent.com/d/1Vz9DUFM5UAuqPVIWldyMSx1pxZLdKtMZ', caption: 'Captured Moment 10' },
+  { id: 'm11', url: 'https://lh3.googleusercontent.com/d/1JT0qHXvx3Xne8uYCABOCtBiB5XOCYD3N', caption: 'Captured Moment 11' },
+  { id: 'm12', url: 'https://lh3.googleusercontent.com/d/13taOT8nuiz4axVuVMoyD3x2SDcZHjfWy', caption: 'Captured Moment 12' },
+  { id: 'm13', url: 'https://lh3.googleusercontent.com/d/1ciz9ZTPEhQMky0JzvieABb20vCm6bqjK', caption: 'Captured Moment 13' },
+  { id: 'm14', url: 'https://lh3.googleusercontent.com/d/196LigcP0jV4ZYCBzFOkaor-unnCHSCRJ', caption: 'Captured Moment 14' },
+  { id: 'm15', url: 'https://lh3.googleusercontent.com/d/1JGGo6Uam67VeM_rItj5e_9QnIFFbKsaV', caption: 'Captured Moment 15' },
 ];
 
-export const LANGUAGES = ["Kimaya", "കിമായ", "கிமாயா", "किமாயா"];
+export const LANGUAGES = ["Kimaya", "കിമായ", "കിമായ", "കിമായ"];

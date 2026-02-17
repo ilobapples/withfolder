@@ -1,8 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MEMORIES, NARRATIVE_STORY } from './constants';
 
-const PhotoModal: React.FC<{ photo: any | null; onClose: () => void }> = ({ photo, onClose }) => {
+const PhotoModal: React.FC<{ 
+  photos: any[]; 
+  currentIndex: number; 
+  onClose: () => void;
+  onNavigate: (index: number) => void;
+}> = ({ photos, currentIndex, onClose, onNavigate }) => {
+  const photo = photos[currentIndex];
+  
+  const handlePrev = useCallback((e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    const nextIdx = (currentIndex - 1 + photos.length) % photos.length;
+    onNavigate(nextIdx);
+  }, [currentIndex, photos.length, onNavigate]);
+
+  const handleNext = useCallback((e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    const nextIdx = (currentIndex + 1) % photos.length;
+    onNavigate(nextIdx);
+  }, [currentIndex, photos.length, onNavigate]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowRight') handleNext();
+      if (e.key === 'ArrowLeft') handlePrev();
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [handleNext, handlePrev, onClose]);
+
   if (!photo) return null;
 
   return (
@@ -10,24 +39,62 @@ const PhotoModal: React.FC<{ photo: any | null; onClose: () => void }> = ({ phot
       className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/95 backdrop-blur-2xl animate-in fade-in duration-300 px-6"
       onClick={onClose}
     >
+      {/* Top Controls */}
+      <div className="absolute top-8 left-0 right-0 px-8 flex justify-between items-center pointer-events-none">
+        <div className="pointer-events-auto">
+          <p className="pixel-font text-[8px] text-zinc-500 uppercase tracking-[0.4em]">
+             Entry_{String(currentIndex + 1).padStart(2, '0')} / {String(photos.length).padStart(2, '0')}
+          </p>
+        </div>
+        <button 
+          className="pointer-events-auto flex items-center gap-2 text-zinc-500 hover:text-white transition-colors"
+          onClick={onClose}
+        >
+          <span className="pixel-font text-[8px] uppercase tracking-widest">Close_X</span>
+        </button>
+      </div>
+
+      {/* Navigation Arrows */}
       <button 
-        className="absolute top-8 right-8 z-[1001] flex items-center gap-2 text-zinc-500 hover:text-white transition-colors"
-        onClick={onClose}
+        className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-[1002] w-12 h-12 flex items-center justify-center text-white/30 hover:text-white hover:bg-white/5 rounded-full transition-all"
+        onClick={handlePrev}
       >
-        <span className="pixel-font text-[8px] uppercase tracking-widest">Close_X</span>
+        <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+
+      <button 
+        className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-[1002] w-12 h-12 flex items-center justify-center text-white/30 hover:text-white hover:bg-white/5 rounded-full transition-all"
+        onClick={handleNext}
+      >
+        <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 5l7 7-7 7" />
+        </svg>
       </button>
 
       <div 
-        className="max-w-5xl w-full h-[85vh] flex flex-col items-center justify-center animate-in zoom-in-95 duration-500"
+        className="max-w-5xl w-full h-[75vh] md:h-[85vh] flex flex-col items-center justify-center animate-in zoom-in-95 duration-500 relative"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="relative w-full h-full flex items-center justify-center">
+        {/* Main Image Viewport */}
+        <div 
+          className="relative w-full h-full flex items-center justify-center cursor-pointer group"
+          onClick={handleNext}
+        >
           <img 
+            key={photo.id}
             src={photo.url} 
             alt={photo.caption} 
             className="max-w-full max-h-full object-contain shadow-2xl ring-1 ring-white/10"
           />
+          {/* Subtle hint that clicking advances */}
+          <div className="absolute inset-y-0 right-0 w-1/4 bg-white/0 group-hover:bg-white/5 transition-colors flex items-center justify-end pr-8 opacity-0 group-hover:opacity-100 hidden md:flex">
+             <span className="text-white/20 text-xs tracking-widest uppercase rotate-90 whitespace-nowrap">Next_Image</span>
+          </div>
         </div>
+
+        {/* Caption Area */}
         <div className="mt-8 text-center max-w-lg">
           <div className="flex items-center justify-center gap-3 mb-2">
             <span className="w-1.5 h-1.5 rounded-full bg-zinc-700"></span>
@@ -47,7 +114,7 @@ const PhotoModal: React.FC<{ photo: any | null; onClose: () => void }> = ({ phot
 
 const Memories: React.FC = () => {
   const navigate = useNavigate();
-  const [selectedPhoto, setSelectedPhoto] = useState<any | null>(null);
+  const [currentIndex, setCurrentIndex] = useState<number | null>(null);
 
   // Combine story and other memories into one flat list
   const combinedPhotos = [
@@ -55,13 +122,24 @@ const Memories: React.FC = () => {
     ...MEMORIES.map(m => ({ ...m, isNarrative: false }))
   ];
 
+  const handlePhotoClick = (index: number) => {
+    setCurrentIndex(index);
+  };
+
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white selection:bg-zinc-800">
-      <PhotoModal photo={selectedPhoto} onClose={() => setSelectedPhoto(null)} />
+      {currentIndex !== null && (
+        <PhotoModal 
+          photos={combinedPhotos} 
+          currentIndex={currentIndex} 
+          onClose={() => setCurrentIndex(null)}
+          onNavigate={(idx) => setCurrentIndex(idx)}
+        />
+      )}
 
       {/* Absolute Minimal Exit Button */}
       <button 
-        onClick={() => navigate('/misc')}
+        onClick={() => navigate('/archive')}
         className="fixed top-8 right-8 z-[100] group flex items-center gap-2 bg-black/40 backdrop-blur-md px-5 py-2.5 rounded-full border border-white/50 hover:border-white/20 transition-all active:scale-95"
       >
         <div className="w-1.5 h-1.5 rounded-full bg-zinc-500 group-hover:bg-white animate-pulse"></div>
@@ -80,7 +158,7 @@ const Memories: React.FC = () => {
           {combinedPhotos.map((item, idx) => (
             <div 
               key={item.id} 
-              onClick={() => setSelectedPhoto(item)}
+              onClick={() => handlePhotoClick(idx)}
               className={`relative overflow-hidden group bg-zinc-900 aspect-square cursor-pointer ${
                 item.isNarrative ? 'ring-1 ring-white/10' : ''
               }`}

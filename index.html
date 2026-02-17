@@ -11,15 +11,19 @@
     body {
       font-family: 'Special Elite', 'P22 Typewriter', 'Courier Prime', 'Courier New', Courier, monospace;
       overflow-x: hidden;
-      cursor: none;
       background-color: #fafafa;
-    }
-    * {
-      cursor: none !important;
     }
     .anek-font {
       font-family: "anek-latin-variable", "Inter", sans-serif !important;
     }
+    
+    /* Hide default cursor on desktop to use the custom star */
+    @media (min-width: 1024px) {
+      body, a, button, [role="button"], .cursor-none {
+        cursor: none !important;
+      }
+    }
+
     /* Override tailwind defaults to ensure typewriter font everywhere */
     h1, h2, h3, h4, h5, h6, p, span, button, div, a {
       font-family: inherit;
@@ -50,12 +54,12 @@
 <script type="importmap">
 {
   "imports": {
-    "react": "https://esm.sh/react@^19.2.4",
     "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
     "react/": "https://esm.sh/react@^19.2.4/",
-    "react-router-dom": "https://esm.sh/react-router-dom@^7.13.0",
+    "react": "https://esm.sh/react@^19.2.4",
     "vite": "https://esm.sh/vite@^7.3.1",
-    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.4"
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.4",
+    "react-router-dom": "https://esm.sh/react-router-dom@^7.13.0"
   }
 }
 </script>

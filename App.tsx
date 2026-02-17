@@ -9,6 +9,7 @@ import Memories from './Memories';
 import Archive from './Archive';
 import Flappy from './Flappy';
 import Sketchbook from './sections/Sketchbook';
+import { PROJECTS, ARCHIVE_PROJECTS, MISC_ARTIFACTS, MEMORIES, NARRATIVE_STORY } from './constants';
 
 const CustomCursor: React.FC = () => {
   const [position, setPosition] = useState({ x: -100, y: -100 });
@@ -166,6 +167,40 @@ const ScrollToTop = () => {
 };
 
 const App: React.FC = () => {
+  useEffect(() => {
+    // Collect all image URLs for preloading
+    const imagesToPreload = [
+      // UI / Static Assets
+      "https://lh3.googleusercontent.com/d/1D7_94ZwJFVtnJzF6Qg9WvWGn0UazKz07", // Navbar Black
+      "https://lh3.googleusercontent.com/d/18xCKeKUBwJB1PDGb28D6RhnJUNghxCLu", // Navbar White
+      "https://lh3.googleusercontent.com/d/1JMf65qzboiConA9Q4NaSjNFVXFulsO_S", // B&W Portrait
+      "https://lh3.googleusercontent.com/d/1JljDRp5aWsczpDSRaZlU9zRvwZw9rPd9", // Color Portrait
+      "https://lh3.googleusercontent.com/d/11LXi3NrJRChSFYs20ED7L4KB78K_O18J", // About Smile
+      
+      // Home GIFs (Hover Effects)
+      "https://lh3.googleusercontent.com/d/1GSERv4DxeBrqZWdNsAQQD9fMisuofGuD",
+      "https://lh3.googleusercontent.com/d/1XGBI_qrfVuVB27sIfzfjrbek3E4PA8qw",
+      "https://lh3.googleusercontent.com/d/1o3VpRSKv0NfbYeyiWQZE3ssHio6wET7D",
+
+      // Assets from constants.ts
+      ...PROJECTS.map(p => p.imageUrl),
+      ...PROJECTS.flatMap(p => p.processImages?.map(i => i.url) || []),
+      ...ARCHIVE_PROJECTS.flatMap(p => p.assets.map(a => a.url)),
+      ...ARCHIVE_PROJECTS.flatMap(p => p.assets.filter(a => a.thumbnailUrl).map(a => a.thumbnailUrl!)),
+      ...MISC_ARTIFACTS.map(m => m.url),
+      ...MEMORIES.map(m => m.url),
+      ...NARRATIVE_STORY.map(s => s.url)
+    ];
+
+    // Deduplicate and filter empty
+    const uniqueImages = Array.from(new Set(imagesToPreload.filter(Boolean)));
+
+    uniqueImages.forEach(url => {
+      const img = new Image();
+      img.src = url;
+    });
+  }, []);
+
   return (
     <Router>
       <ScrollToTop />

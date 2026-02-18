@@ -17,12 +17,7 @@
       font-family: "anek-latin-variable", "Inter", sans-serif !important;
     }
     
-    /* Hide default cursor on desktop to use the custom star */
-    @media (min-width: 1024px) {
-      body, a, button, [role="button"], .cursor-none {
-        cursor: none !important;
-      }
-    }
+    /* Default cursor is visible. App.tsx will hide it only when custom cursor is ready. */
 
     /* Override tailwind defaults to ensure typewriter font everywhere */
     h1, h2, h3, h4, h5, h6, p, span, button, div, a {
@@ -63,7 +58,6 @@
   }
 }
 </script>
-<link rel="stylesheet" href="/index.css">
 </head>
 <body class="bg-white text-zinc-900">
   <div id="root"></div>

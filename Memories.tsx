@@ -137,10 +137,10 @@ const Memories: React.FC = () => {
         />
       )}
 
-      {/* Absolute Minimal Exit Button */}
+      {/* Absolute Minimal Exit Button - High Z-Index to beat Navbar */}
       <button 
         onClick={() => navigate('/archive')}
-        className="fixed top-8 right-8 z-[100] group flex items-center gap-2 bg-black/40 backdrop-blur-md px-5 py-2.5 rounded-full border border-white/50 hover:border-white/20 transition-all active:scale-95"
+        className="fixed top-8 right-8 z-[2000] group flex items-center gap-2 bg-black/40 backdrop-blur-md px-5 py-2.5 rounded-full border border-white/50 hover:border-white/20 transition-all active:scale-95 pointer-events-auto"
       >
         <div className="w-1.5 h-1.5 rounded-full bg-zinc-500 group-hover:bg-white animate-pulse"></div>
         <span className="pixel-font text-[8px] text-zinc-500 group-hover:text-white uppercase tracking-widest">Exit_Archive</span>

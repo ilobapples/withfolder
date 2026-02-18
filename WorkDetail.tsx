@@ -29,11 +29,11 @@ const WorkDetail: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#f1efe7] selection:bg-zinc-200">
-      {/* Absolute Exit Button */}
-      <div className="fixed top-8 left-1/2 -translate-x-1/2 z-[100]">
+      {/* Absolute Exit Button - High z-index to be above Navbar */}
+      <div className="fixed top-8 left-1/2 -translate-x-1/2 z-[2000]">
         <button 
           onClick={() => navigate('/work')}
-          className="bg-white/90 border border-zinc-200 text-zinc-500 px-8 py-2 rounded-full text-[10px] uppercase tracking-[0.3em] hover:bg-zinc-900 hover:text-white transition-all shadow-sm backdrop-blur-md"
+          className="bg-white/90 border border-zinc-200 text-zinc-500 px-8 py-2 rounded-full text-[10px] uppercase tracking-[0.3em] hover:bg-zinc-900 hover:text-white transition-all shadow-sm backdrop-blur-md active:scale-95"
         >
           [CLOSE_FILE]
         </button>

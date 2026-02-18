@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ARCHIVE_PROJECTS, MISC_ARTIFACTS } from './constants';
 import { ArchiveAsset } from './types';
 
@@ -112,10 +113,21 @@ const AssetModal: React.FC<AssetModalProps> = ({ assets, currentIndex, onClose, 
 };
 
 const Archive: React.FC = () => {
+  const navigate = useNavigate();
   const [activeContext, setActiveContext] = useState<{ assets: ArchiveAsset[], index: number } | null>(null);
 
   return (
-    <section className="min-h-screen bg-[#fcfbf7] selection:bg-zinc-200 py-16 md:py-24 px-6 md:px-12">
+    <section className="min-h-screen bg-[#fcfbf7] selection:bg-zinc-200 py-16 md:py-24 px-6 md:px-12 relative">
+      {/* Floating Close Button - Added to ensure exit is possible */}
+      <div className="fixed top-8 right-8 z-[2000]">
+        <button 
+          onClick={() => navigate('/')}
+          className="bg-white/90 border border-zinc-200 text-zinc-500 px-6 py-2.5 rounded-full text-[10px] uppercase tracking-[0.3em] hover:bg-zinc-900 hover:text-white transition-all shadow-sm backdrop-blur-md active:scale-95"
+        >
+          Close_Archive
+        </button>
+      </div>
+
       {activeContext && (
         <AssetModal 
           assets={activeContext.assets} 
@@ -203,7 +215,7 @@ const Archive: React.FC = () => {
           ))}
         </div>
 
-        {/* Loose Sketches Masonry Grid - Filtered to ONLY newly added images */}
+        {/* Loose Sketches Masonry Grid */}
         <div className="pt-12 border-t border-zinc-100">
           <div className="flex items-center gap-4 mb-10 opacity-30">
              <div className="h-[1px] w-12 bg-zinc-900"></div>

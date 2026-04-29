@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { HashRouter as Router, Routes, Route, useLocation, Link } from 'react-router-dom';
 import Home from './Home';
 import About from './About';
@@ -8,57 +8,77 @@ import Misc from './Misc';
 import Memories from './Memories';
 import Archive from './Archive';
 import Flappy from './Flappy';
-import Sketchbook from './sections/Sketchbook';
+import Sketchbook from './Sketchbook';
 import { PROJECTS, ARCHIVE_PROJECTS, MISC_ARTIFACTS, MEMORIES, NARRATIVE_STORY } from './constants';
 
 const CustomCursor: React.FC = () => {
-  const [position, setPosition] = useState({ x: -100, y: -100 });
+  const cursorRef = useRef<HTMLDivElement>(null);
   const [isPointer, setIsPointer] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const mousePos = useRef({ x: -100, y: -100 });
+  const isPointerRef = useRef(false);
 
   useEffect(() => {
+    // Disable custom cursor on touch devices or small screens
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     if (isTouchDevice || window.innerWidth < 1024) return;
 
-    document.body.style.cursor = 'none';
+    let rafId: number;
+
+    const updateCursor = () => {
+      if (cursorRef.current) {
+        cursorRef.current.style.transform = `translate3d(${mousePos.current.x}px, ${mousePos.current.y}px, 0) translate(-50%, -50%) scale(${isPointerRef.current ? 2.2 : 1})`;
+      }
+      rafId = requestAnimationFrame(updateCursor);
+    };
 
     const handleMouseMove = (e: MouseEvent) => {
-      if (!isVisible) setIsVisible(true);
-      setPosition({ x: e.clientX, y: e.clientY });
+      if (!isVisible) {
+        setIsVisible(true);
+        // Only hide the default system cursor once we know the custom one is active and moving
+        document.body.style.cursor = 'none';
+        const interactiveElements = document.querySelectorAll('a, button, [role="button"]');
+        interactiveElements.forEach(el => (el as HTMLElement).style.cursor = 'none');
+      }
+      
+      mousePos.current = { x: e.clientX, y: e.clientY };
       
       const target = e.target as HTMLElement;
       if (!target) return;
 
-      const computedCursor = window.getComputedStyle(target).cursor;
-      setIsPointer(
-        computedCursor === 'pointer' || 
+      const isActuallyPointer = 
         target.tagName === 'BUTTON' || 
         target.tagName === 'A' ||
-        !!target.closest('button') ||
-        !!target.closest('a')
-      );
+        target.closest('button') ||
+        target.closest('a') ||
+        window.getComputedStyle(target).cursor === 'pointer';
+      
+      if (!!isActuallyPointer !== isPointerRef.current) {
+        isPointerRef.current = !!isActuallyPointer;
+        setIsPointer(!!isActuallyPointer);
+      }
     };
 
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    rafId = requestAnimationFrame(updateCursor);
     
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
-      document.body.style.cursor = '';
+      cancelAnimationFrame(rafId);
+      document.body.style.cursor = 'auto';
     };
   }, [isVisible]);
 
-  if (!isVisible) return null;
+  if (typeof window !== 'undefined' && window.innerWidth < 1024) return null;
 
   return (
     <div 
-      className="fixed pointer-events-none hidden lg:block z-[99999]"
+      ref={cursorRef}
+      className={`fixed top-0 left-0 pointer-events-none hidden lg:block z-[99999] transition-opacity duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
       style={{ 
-        left: `${position.x}px`, 
-        top: `${position.y}px`,
-        transform: `translate(-50%, -50%) scale(${isPointer ? 2.2 : 1})`,
-        transition: 'transform 0.15s ease-out',
+        willChange: 'transform',
         mixBlendMode: 'difference',
-        willChange: 'transform, left, top'
+        transition: 'opacity 0.3s ease, transform 0.15s ease-out'
       }}
     >
       <svg 
@@ -66,6 +86,9 @@ const CustomCursor: React.FC = () => {
         height="32" 
         viewBox="0 0 24 24" 
         fill="white"
+        stroke="black"
+        strokeWidth="0.5"
+        className="drop-shadow-md"
       >
         <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
       </svg>
@@ -168,21 +191,16 @@ const ScrollToTop = () => {
 
 const App: React.FC = () => {
   useEffect(() => {
-    // Collect all image URLs for preloading
+    // Preloading assets...
     const imagesToPreload = [
-      // UI / Static Assets
-      "https://lh3.googleusercontent.com/d/1D7_94ZwJFVtnJzF6Qg9WvWGn0UazKz07", // Navbar Black
-      "https://lh3.googleusercontent.com/d/18xCKeKUBwJB1PDGb28D6RhnJUNghxCLu", // Navbar White
-      "https://lh3.googleusercontent.com/d/1JMf65qzboiConA9Q4NaSjNFVXFulsO_S", // B&W Portrait
-      "https://lh3.googleusercontent.com/d/1JljDRp5aWsczpDSRaZlU9zRvwZw9rPd9", // Color Portrait
-      "https://lh3.googleusercontent.com/d/11LXi3NrJRChSFYs20ED7L4KB78K_O18J", // About Smile
-      
-      // Home GIFs (Hover Effects)
+      "https://lh3.googleusercontent.com/d/1D7_94ZwJFVtnJzF6Qg9WvWGn0UazKz07",
+      "https://lh3.googleusercontent.com/d/18xCKeKUBwJB1PDGb28D6RhnJUNghxCLu",
+      "https://lh3.googleusercontent.com/d/1JMf65qzboiConA9Q4NaSjNFVXFulsO_S",
+      "https://lh3.googleusercontent.com/d/1JljDRp5aWsczpDSRaZlU9zRvwZw9rPd9",
+      "https://lh3.googleusercontent.com/d/11LXi3NrJRChSFYs20ED7L4KB78K_O18J",
       "https://lh3.googleusercontent.com/d/1GSERv4DxeBrqZWdNsAQQD9fMisuofGuD",
       "https://lh3.googleusercontent.com/d/1XGBI_qrfVuVB27sIfzfjrbek3E4PA8qw",
       "https://lh3.googleusercontent.com/d/1o3VpRSKv0NfbYeyiWQZE3ssHio6wET7D",
-
-      // Assets from constants.ts
       ...PROJECTS.map(p => p.imageUrl),
       ...PROJECTS.flatMap(p => p.processImages?.map(i => i.url) || []),
       ...ARCHIVE_PROJECTS.flatMap(p => p.assets.map(a => a.url)),
@@ -192,9 +210,7 @@ const App: React.FC = () => {
       ...NARRATIVE_STORY.map(s => s.url)
     ];
 
-    // Deduplicate and filter empty
-    const uniqueImages = Array.from(new Set(imagesToPreload.filter(Boolean)));
-
+    const uniqueImages = Array.from(new Set(imagesToPreload.filter((url): url is string => !!url)));
     uniqueImages.forEach(url => {
       const img = new Image();
       img.src = url;

@@ -40,10 +40,6 @@ const NoteButton: React.FC<{
 };
 
 const Home: React.FC = () => {
-  const [maskStyle, setMaskStyle] = useState<React.CSSProperties>({
-    maskImage: 'radial-gradient(circle 0px at 0 0, transparent 100%)',
-    WebkitMaskImage: 'radial-gradient(circle 0px at 0 0, transparent 100%)'
-  });
   const [showFullColor, setShowFullColor] = useState(false);
   const [showContactBubble, setShowContactBubble] = useState(false);
   const [hoverOverlay, setHoverOverlay] = useState<string | null>(null);
@@ -57,19 +53,15 @@ const Home: React.FC = () => {
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
     
-    const mask = `radial-gradient(circle 100px at ${x}px ${y}px, black 100%, transparent 100%)`;
-    setMaskStyle({
-      maskImage: mask,
-      WebkitMaskImage: mask
-    });
+    // Update CSS variables for high-performance masking
+    portraitRef.current.style.setProperty('--mouse-x', `${x}px`);
+    portraitRef.current.style.setProperty('--mouse-y', `${y}px`);
+    portraitRef.current.style.setProperty('--mask-size', `100px`);
   };
 
   const handleMouseLeavePortrait = () => {
-    if (showFullColor) return;
-    setMaskStyle({
-      maskImage: 'radial-gradient(circle 0px at 0 0, transparent 100%)',
-      WebkitMaskImage: 'radial-gradient(circle 0px at 0 0, transparent 100%)'
-    });
+    if (showFullColor || !portraitRef.current) return;
+    portraitRef.current.style.setProperty('--mask-size', `0px`);
   };
 
   return (
@@ -151,7 +143,12 @@ const Home: React.FC = () => {
               ref={portraitRef}
               onMouseMove={handleMouseMove}
               onMouseLeave={handleMouseLeavePortrait}
-              className="relative w-full max-w-[320px] md:max-w-[420px] lg:max-w-[480px]"
+              className="relative w-full max-w-[320px] md:max-w-[420px] lg:max-w-[480px] overflow-hidden"
+              style={{
+                ['--mouse-x' as any]: '0px',
+                ['--mouse-y' as any]: '0px',
+                ['--mask-size' as any]: '0px',
+              }}
             >
               {/* B&W Base */}
               <img 
@@ -164,7 +161,11 @@ const Home: React.FC = () => {
               <img 
                 src="https://lh3.googleusercontent.com/d/1JljDRp5aWsczpDSRaZlU9zRvwZw9rPd9" 
                 alt="Kimaya Color" 
-                style={showFullColor ? { maskImage: 'none', WebkitMaskImage: 'none', opacity: 1 } : { ...maskStyle, opacity: 1 }}
+                style={{
+                  maskImage: showFullColor ? 'none' : 'radial-gradient(circle var(--mask-size) at var(--mouse-x) var(--mouse-y), black 100%, transparent 100%)',
+                  WebkitMaskImage: showFullColor ? 'none' : 'radial-gradient(circle var(--mask-size) at var(--mouse-x) var(--mouse-y), black 100%, transparent 100%)',
+                  opacity: 1
+                }}
                 className="absolute inset-0 w-full h-full object-cover transition-opacity duration-300 pointer-events-none"
               />
 

@@ -7,28 +7,13 @@ const About: React.FC = () => {
       <div className="flex-1 flex items-center justify-center p-8 md:p-16 lg:pl-24 xl:pl-40 py-20 lg:py-0">
         <div className="max-w-xl w-full space-y-8">
           <h2 className="text-5xl font-light border-b border-zinc-100 pb-6">About Me</h2>
-          <div className="space-y-6 text-xl text-zinc-600 leading-relaxed">
+          <div className="space-y-6 text-xl text-zinc-600 leading-relaxed font-light">
             <p>
-              I am an artist and illustrator based in a world of rhythm and color. My work explores the intersection of traditional mediums and digital interactive experiences.
+              Hi, I'm Kimaya, a second-year visual communication student at UID from Trivandrum. I specialize in illustration and am currently exploring 2D animation and motion graphics. I'm a serial hobbyist who loves music and doggos the most :3. My favourite drink is water, I LOVE trying new instant noodle flavours, and if you ever cant find me for too long I'll be curled up in my bed reading a book or watching something on Youtube.
             </p>
-            <ul className="space-y-4">
-              <li className="flex items-center gap-4">
-                <span className="text-2xl">✏️</span>
-                <span>Artist & illustrator</span>
-              </li>
-              <li className="flex items-center gap-4">
-                <span className="text-2xl">🎧</span>
-                <span>Music-driven creator</span>
-              </li>
-              <li className="flex items-center gap-4">
-                <span className="text-2xl">📚</span>
-                <span>Loves books & films</span>
-              </li>
-              <li className="flex items-center gap-4">
-                <span className="text-2xl">🎮</span>
-                <span>Experiments with code & games</span>
-              </li>
-            </ul>
+            <p>
+              If you're looking for someone who is creative, detail oriented, works well in a team, and learns new skills really fast—then you've come to the right place, my friend!
+            </p>
           </div>
         </div>
       </div>

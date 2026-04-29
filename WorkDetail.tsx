@@ -54,109 +54,147 @@ const WorkDetail: React.FC = () => {
           </p>
         </header>
 
-        {/* Process & Scrapbook Section */}
-        {project.processImages ? (
-          <div className="space-y-40">
-            {/* The Main Narrative Story Section */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-20 items-start">
-              <div className="space-y-8">
+        {/* Content Section */}
+        <div className="space-y-40">
+          {/* Full Page Showcase Image (for specific projects like WKW Booklet) */}
+          {project.fullPageImage && (
+            <div className="w-full">
+              <div className="bg-white p-4 shadow-2xl border border-zinc-200">
+                <img 
+                  src={project.fullPageImage} 
+                  alt={`${project.title} Full Showcase`} 
+                  className="w-full h-auto"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+              <div className="mt-8 flex items-center gap-4 opacity-30 justify-center">
+                <div className="h-[1px] w-20 bg-zinc-900"></div>
+                <span className="text-[10px] uppercase tracking-[0.5em] text-center">Comprehensive_Visual_Compilation</span>
+                <div className="h-[1px] w-20 bg-zinc-900"></div>
+              </div>
+            </div>
+          )}
+
+          {/* Concept Header */}
+          <div className={`grid grid-cols-1 ${project.imageUrl && !project.hideImageInDetail ? 'lg:grid-cols-2' : 'max-w-4xl mx-auto'} gap-20 items-start`}>
+            <div className="space-y-12">
+              <div className="space-y-6">
                 <h2 className="text-3xl font-light underline decoration-zinc-200 underline-offset-8">The Concept</h2>
                 <div className="prose prose-zinc max-w-none">
                   <p className="text-zinc-600 text-lg leading-relaxed">
                     {project.fullContent}
                   </p>
                 </div>
+              </div>
 
-                {/* Legacy Spotify Player (if any) */}
-                {project.spotifyEmbedUrl && (
-                  <div className="pt-8">
-                    <iframe
-                      src={`${project.spotifyEmbedUrl}${project.spotifyEmbedUrl.includes('?') ? '&' : '?'}autoplay=0`}
-                      width="100%"
-                      height="80"
-                      frameBorder="0"
-                      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                      loading="lazy"
-                      className="rounded-lg grayscale opacity-50"
-                    ></iframe>
+              {/* Flipbook Embeds (Primary Feature) */}
+              {project.flipbookUrls && project.flipbookUrls.length > 0 && (
+                <div className="space-y-12 pt-8">
+                  <div className="flex items-center gap-4 opacity-30">
+                    <span className="text-[10px] uppercase tracking-[0.5em]">Interactive_Booklets</span>
+                    <div className="h-[1px] flex-1 bg-zinc-900"></div>
                   </div>
-                )}
-              </div>
-              
-              {/* Primary Visual */}
-              <div className="relative group sticky top-32">
-                <div className="bg-white p-4 shadow-2xl border border-zinc-200 rotate-2 group-hover:rotate-0 transition-transform duration-700">
-                   <img src={project.imageUrl} alt={project.title} className="w-full h-auto grayscale-[0.3] group-hover:grayscale-0 transition-all duration-700" />
-                   <div className="mt-4 text-[10px] text-zinc-400 uppercase tracking-widest text-center">Final_Execution_Plate_01</div>
-                </div>
-                {/* Adhesive Tape */}
-                <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-24 h-10 bg-white/40 backdrop-blur-sm border border-white/50 -rotate-3 z-10 shadow-sm"></div>
-              </div>
-            </div>
-
-            {/* Staggered Process Timeline */}
-            <div className="space-y-32">
-              <div className="flex items-center gap-4 opacity-30 justify-center">
-                 <div className="h-[1px] w-20 bg-zinc-900"></div>
-                 <span className="text-[10px] uppercase tracking-[0.5em]">Process_Log</span>
-                 <div className="h-[1px] w-20 bg-zinc-900"></div>
-              </div>
-
-              {project.processImages.map((pImg, pIdx) => (
-                <div 
-                  key={pIdx} 
-                  className={`flex flex-col ${pIdx % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-12 md:gap-24`}
-                >
-                  <div className="flex-1 w-full max-w-lg">
-                    <div className={`bg-white p-3 shadow-xl border border-zinc-100 ${pIdx % 2 === 0 ? '-rotate-1' : 'rotate-1'} hover:rotate-0 transition-transform duration-500`}>
-                       <img src={pImg.url} alt={pImg.label} className="w-full h-auto" />
+                  {project.flipbookUrls.map((url, index) => (
+                    <div key={index} className="w-full bg-white shadow-2xl rounded-sm overflow-hidden border border-zinc-200 aspect-[4/3]">
+                      <iframe 
+                        src={url} 
+                        className="w-full h-full border-0" 
+                        allowFullScreen
+                        allow="clipboard-write"
+                        scrolling="no"
+                      ></iframe>
                     </div>
-                  </div>
-                  <div className="flex-1 text-center md:text-left space-y-4">
-                    <span className="text-[10px] text-zinc-400 uppercase tracking-[0.4em]">Step_0{pIdx + 1}</span>
-                    <h3 className="text-2xl font-light">{pImg.label}</h3>
-                    <div className="h-[1px] w-12 bg-zinc-200 mx-auto md:mx-0"></div>
-                    <p className="text-zinc-500 italic text-sm">Documentation and aesthetic reflection of the design phase.</p>
-                  </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          </div>
-        ) : (
-          /* Fallback for other projects */
-          <div className="flex flex-col items-center">
-            {project.pdfUrl ? (
-              <div className="w-full space-y-16 flex flex-col items-center">
-                <div className="relative w-full h-[80vh] bg-white shadow-2xl rounded-sm overflow-hidden border border-zinc-200">
-                  {pdfLoading && (
-                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-zinc-50 z-20">
-                      <div className="w-8 h-8 border-2 border-zinc-200 border-t-zinc-800 rounded-full animate-spin mb-4"></div>
-                      <p className="text-[10px] uppercase tracking-widest text-zinc-400">Loading Artifact...</p>
-                    </div>
-                  )}
+              )}
+
+              {/* Spotify Player */}
+              {project.spotifyEmbedUrl && (
+                <div className="pt-8">
                   <iframe
-                    src={getPdfEmbedUrl(project.pdfUrl)} 
-                    className="w-full h-full border-0 relative z-10"
-                    onLoad={() => setPdfLoading(false)}
+                    src={`${project.spotifyEmbedUrl}${project.spotifyEmbedUrl.includes('?') ? '&' : '?'}autoplay=0`}
+                    width="100%"
+                    height="80"
+                    frameBorder="0"
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                    loading="lazy"
+                    className="rounded-lg grayscale opacity-50"
                   ></iframe>
                 </div>
-                <div className="prose prose-zinc text-center max-w-2xl">
-                   <p className="text-zinc-600 leading-relaxed text-lg">{project.fullContent}</p>
+              )}
+            </div>
+            
+            {/* Main Project Image / Primary Visual */}
+            {project.imageUrl && !project.hideImageInDetail && (
+              <div className="relative group lg:sticky lg:top-32 h-fit">
+                <div className="bg-white p-4 shadow-2xl border border-zinc-200 rotate-1 group-hover:rotate-0 transition-all duration-700">
+                   <img 
+                     src={project.imageUrl} 
+                     alt={project.title} 
+                     className="w-full h-auto grayscale-[0.05] group-hover:grayscale-0 transition-all duration-700" 
+                     referrerPolicy="no-referrer"
+                   />
+                   <div className="mt-4 text-[10px] text-zinc-400 uppercase tracking-widest text-center">
+                     {project.id.toUpperCase()}_PLATE_01
+                   </div>
                 </div>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-                 <div className="space-y-12">
-                    <img src={project.imageUrl} className="w-full shadow-2xl p-4 bg-white border border-zinc-100 rotate-1" alt={project.title} />
-                 </div>
-                 <div className="space-y-6">
-                    <h2 className="text-3xl font-light underline decoration-zinc-100 underline-offset-8">Project Details</h2>
-                    <p className="text-zinc-600 leading-relaxed text-lg">{project.fullContent}</p>
-                 </div>
+                {/* Adhesive Tape Effect */}
+                <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-32 h-12 bg-white/40 backdrop-blur-md border border-white/50 -rotate-2 z-10 shadow-sm opacity-90"></div>
               </div>
             )}
           </div>
-        )}
+
+          {/* Process Images Section (If they exist) */}
+          {project.processImages && project.processImages.length > 0 && (
+            <div className="space-y-32">
+              <div className="flex items-center gap-4 opacity-30 justify-center">
+                 <div className="h-[1px] w-20 bg-zinc-900"></div>
+                 <span className="text-[10px] uppercase tracking-[0.5em]">Process_Archives</span>
+                 <div className="h-[1px] w-20 bg-zinc-900"></div>
+              </div>
+
+              <div className="grid grid-cols-1 gap-32">
+                {project.processImages.map((pImg, pIdx) => (
+                  <div 
+                    key={pIdx} 
+                    className={`flex flex-col ${pIdx % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-12 md:gap-24`}
+                  >
+                    <div className="flex-1 w-full max-w-xl">
+                      <div className={`bg-white p-4 shadow-xl border border-zinc-100 ${pIdx % 2 === 0 ? '-rotate-1' : 'rotate-1'} hover:rotate-0 transition-transform duration-500`}>
+                         <img src={pImg.url} alt={pImg.label} className="w-full h-auto" referrerPolicy="no-referrer" />
+                      </div>
+                    </div>
+                    <div className="flex-1 text-center md:text-left space-y-4">
+                      <span className="text-[10px] text-zinc-400 uppercase tracking-[0.4em]">Log_Entry_0{pIdx + 1}</span>
+                      <h3 className="text-2xl font-light">{pImg.label}</h3>
+                      <div className="h-[1px] w-12 bg-zinc-200 mx-auto md:mx-0"></div>
+                      <p className="text-zinc-500 italic text-sm">Visual documentation of the design evolution and experimental phases.</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* PDF Viewer (Fallback) */}
+          {project.pdfUrl && (
+            <div className="w-full space-y-16 flex flex-col items-center pt-20">
+              <div className="relative w-full h-[80vh] bg-white shadow-2xl rounded-sm overflow-hidden border border-zinc-200">
+                {pdfLoading && (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center bg-zinc-50 z-20">
+                    <div className="w-8 h-8 border-2 border-zinc-200 border-t-zinc-800 rounded-full animate-spin mb-4"></div>
+                    <p className="text-[10px] uppercase tracking-widest text-zinc-400">Accessing Digital Artifact...</p>
+                  </div>
+                )}
+                <iframe
+                  src={getPdfEmbedUrl(project.pdfUrl)} 
+                  className="w-full h-full border-0 relative z-10"
+                  onLoad={() => setPdfLoading(false)}
+                ></iframe>
+              </div>
+            </div>
+          )}
+        </div>
 
         {/* Footer Navigation */}
         <footer className="mt-60 pt-20 border-t border-zinc-200 flex flex-col items-center gap-12">

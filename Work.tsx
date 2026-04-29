@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PROJECTS } from './constants';
 
-const ProjectFolder: React.FC<{ title: string; category: string; imageUrl: string; index: number }> = ({ title, category, imageUrl, index }) => {
+const ProjectFolder: React.FC<{ title: string; category: string; imageUrl?: string; index: number }> = ({ title, category, imageUrl, index }) => {
   const rotation = (index % 3 === 0 ? -1.5 : index % 3 === 1 ? 1 : 2.5);
   
   return (
@@ -19,12 +19,22 @@ const ProjectFolder: React.FC<{ title: string; category: string; imageUrl: strin
         </div>
 
         {/* Thumbnail Area (The "Work") */}
-        <div className="absolute top-2 left-2 right-2 bottom-8 bg-white rounded shadow-inner overflow-hidden transform transition-transform group-hover:rotate-1 duration-500">
-          <img 
-            src={imageUrl} 
-            alt={title} 
-            className="w-full h-full object-cover grayscale-[0.3] group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" 
-          />
+        <div className="absolute top-2 left-2 right-2 bottom-8 bg-white rounded shadow-inner overflow-hidden transform transition-transform group-hover:rotate-1 duration-500 flex items-center justify-center">
+          {imageUrl ? (
+            <img 
+              src={imageUrl} 
+              alt={title} 
+              className="w-full h-full object-cover grayscale-[0.3] group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" 
+              referrerPolicy="no-referrer"
+            />
+          ) : (
+            <div className="flex flex-col items-center gap-2 opacity-20">
+              <svg className="w-8 h-8 text-zinc-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+              </svg>
+              <span className="text-[8px] uppercase tracking-widest font-mono">Interactive_File</span>
+            </div>
+          )}
           {/* Subtle Reflection overlay */}
           <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-white/10 pointer-events-none"></div>
         </div>
@@ -87,7 +97,7 @@ const Work: React.FC = () => {
               <ProjectFolder 
                 title={project.title} 
                 category={project.category} 
-                imageUrl={project.imageUrl}
+                imageUrl={project.imageUrl || project.fullPageImage}
                 index={index} 
               />
             </div>

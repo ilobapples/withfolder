@@ -48,6 +48,20 @@ export const PROJECTS: Project[] = [
       { url: 'https://lh3.googleusercontent.com/d/1K3j85_kHifRlneji7jj6_qWIh3WLJzLq', label: 'Band Member 05 Poster' },
       { url: 'https://lh3.googleusercontent.com/d/1d6AdOsv9m_YLs0DYm1SecvOfubP6avsb', label: 'Band Member 06 Poster' }
     ]
+  },
+  {
+    id: 'wong-kar-wai-booklet',
+    title: 'Wong Kar Wai Booklet',
+    description: 'A cinematic exploration of Wong Kar Wai’s visual language, translated into a tactile booklet format.',
+    fullContent: 'This project is a tribute to the legendary filmmaker Wong Kar Wai. The booklet captures the mood, color palettes, and fragmented narratives characteristic of his films like "In the Mood for Love" and "Chungking Express". It explores the intersection of cinema and graphic design through experimental layouts and textured paper choices.',
+    imageUrl: 'https://lh3.googleusercontent.com/d/1eVfONlvn7kcWLzxOdqOZKS8ymzosh7PR',
+    category: 'Booklet Design',
+    year: '2024',
+    flipbookUrls: [
+      'https://heyzine.com/flip-book/8bf429189e.html',
+      'https://heyzine.com/flip-book/6ec6d950a7.html'
+    ],
+    hideImageInDetail: true
   }
 ];
 
@@ -102,7 +116,8 @@ export const MISC_ARTIFACTS: { id: number; title: string; url: string }[] = [
   { id: 204, title: 'Sketch_04', url: 'https://lh3.googleusercontent.com/d/1nEH5cfS9tlvI4FISk6uvc7KlD26v4g6i' },
   { id: 205, title: 'Sketch_05', url: 'https://lh3.googleusercontent.com/d/1Qcsaj5tM0LievM5_ZKOWycJG99Vm_qma' },
   { id: 206, title: 'Sketch_06', url: 'https://lh3.googleusercontent.com/d/1ih_MRkE0lfKhi-BGXIonmAETX7wW9ROK' },
-  { id: 207, title: 'Sketch_07', url: 'https://lh3.googleusercontent.com/d/1LVPXtUPrdNjqvGHlbqcxpVwugYgMPRQE' }
+  { id: 207, title: 'Sketch_07', url: 'https://lh3.googleusercontent.com/d/1LVPXtUPrdNjqvGHlbqcxpVwugYgMPRQE' },
+  { id: 208, title: 'Sketch_08', url: 'https://lh3.googleusercontent.com/d/1XVPk4eeduLas2G-uKw1Tj8IzEUJOyPtr' }
 ];
 
 export const NARRATIVE_STORY = [

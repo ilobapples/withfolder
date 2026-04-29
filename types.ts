@@ -3,11 +3,14 @@ export interface Project {
   title: string;
   description: string;
   fullContent: string;
-  imageUrl: string;
+  imageUrl?: string;
   category: string;
   year: string;
   spotifyEmbedUrl?: string;
   pdfUrl?: string;
+  flipbookUrls?: string[];
+  fullPageImage?: string;
+  hideImageInDetail?: boolean;
   processImages?: { url: string; label: string }[];
 }
 

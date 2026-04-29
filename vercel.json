@@ -1,5 +1,5 @@
 {
   "rewrites": [
-    { "source": "/sub-path/:match*", "destination": "https://vercel.app*" }
+    { "source": "/sub-path/:match*", "destination": "https://wihtfolder-test.vercel.app/" }
   ]
 }

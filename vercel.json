@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/sub-path/:match*", "destination": "https://vercel.app*" }
+  ]
+}
